@@ -2,15 +2,24 @@
 
 A simplistic implementation of a blockchain in Clojure, with the only objective of learning about both Blockchain and Clojure.
 
-## Installation
 
-Download from http://example.com/FIXME.
+## Usage - Development
 
-## Usage
+```bash
+lein run
+```
 
-FIXME: explanation
+```bash
+lein test
+```
 
-    $ java -jar clj-blockchain-0.1.0-standalone.jar [args]
+## Usage - executable jar
+Build an uberjar and execute it.
+```bash
+lein uberjar
+java -jar target/uberjar/clj-blockchain-0.1.0-SNAPSHOT-standalone.jar
+```
+
 
 ## Options
 

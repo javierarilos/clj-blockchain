@@ -2,6 +2,6 @@
   (:gen-class))
 
 (defn -main
-  "I don't do a whole lot ... yet."
+  "Doing nothing... for the moment."
   [& args]
-  (println "Hello, World!"))
+  (println "Hello, World! ... clj-blockchain"))
