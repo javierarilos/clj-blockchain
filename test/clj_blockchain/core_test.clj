@@ -23,4 +23,4 @@
     (let
       [jajaja-hash (sha256 "jajaja")
        jajaja-hash-hash (sha256 jajaja-hash)]
-    (is (not= "jajaja" jajaja-hash-hash)))))
+      (is (not= "jajaja" jajaja-hash-hash)))))
