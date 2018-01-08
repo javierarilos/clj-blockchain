@@ -18,13 +18,10 @@
 
 (deftest hash-is-not-reversible
   (testing "The digest of a digest does not produce the original message"
-    (let
-      [jajaja-hash (sha256 "jajaja")
-       jajaja-hash-hash (sha256 jajaja-hash)]
-      (is (not= "jajaja" jajaja-hash-hash)))))
+      (is (not= "jajaja" (sha256 (sha256 "jajaja"))))))
 
 (deftest hash-has-low-collision
-  (testing "Hashing similar messages produce very different digests, according to Levenshtein distance"
+  (testing "similar messages produce very different digests"
     (is (> (levenshtein (sha256 "jajaja") (sha256 "jajajE")) 50))
     (is (> (levenshtein (sha256 "jajaja") (sha256 "jajajI")) 50))
     (is (> (levenshtein (sha256 "jajaja") (sha256 "jajajI")) 50))))
