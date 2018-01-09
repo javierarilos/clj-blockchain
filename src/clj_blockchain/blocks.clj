@@ -1,5 +1,6 @@
-(ns clj-blockchain.blocks)
-
+(ns clj-blockchain.blocks
+  (:require [clj-blockchain.digest :refer :all])
+  (:use [clojure.string :only [join]]))
 
 (defn now [] (str (java.util.Date.)))
 
@@ -26,3 +27,12 @@
    (if-let [tra (:transactions chain)]
      (transactions (:previous chain) (concat acctrans tra))
      acctrans)))
+
+
+(defn block-digest
+  "returns the Hash digest for a given block"
+  [block]
+  (let [timestamp (:timestamp block)
+        transactions (join "" (:transactions block))
+        block-str (str timestamp transactions)]
+    (sha256 block-str)))
