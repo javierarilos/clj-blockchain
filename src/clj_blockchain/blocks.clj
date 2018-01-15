@@ -5,18 +5,46 @@
 (defn now [] (str (java.util.Date.)))
 
 
+(defn block-digest
+  "returns the Hash digest for a given block"
+  [block]
+  (let [id        (:id block)
+        timestamp (:timestamp block)
+        prev-hash (:prev-hash block)
+        transactions (join "" (:transactions block))
+        block-str (str id timestamp prev-hash transactions)]
+    (sha256 block-str)))
+
+
+(defn assoc-digest
+  [block]
+  (assoc block :hash (block-digest block)))
+
+
 (defn add-block
   "Add a block to an existing chain. Chain is a pointer to the chain head Block"
-  [chain transactions]
-  {:previous     chain
-   :timestamp    (now)
-   :transactions transactions})
+  [previous transactions]
+  (let [
+    block-no-hash {
+      :id           (inc (:id previous))
+      :timestamp    (now)
+      :prev-hash    (:hash previous)
+      :previous     previous
+      :transactions transactions}]
+    (assoc-digest block-no-hash)))
 
 
 (defn new-chain
   "Create a new, empty, BlockChain returning a genesys block."
   []
-  (add-block nil nil))
+  (let [
+    block-no-hash {
+      :id           0
+      :timestamp    (now)
+      :prev-hash    nil
+      :previous     nil
+      :transactions []}]
+    (assoc-digest block-no-hash)))
 
 
 (defn transactions
@@ -27,12 +55,3 @@
    (if-let [tra (:transactions chain)]
      (transactions (:previous chain) (concat acctrans tra))
      acctrans)))
-
-
-(defn block-digest
-  "returns the Hash digest for a given block"
-  [block]
-  (let [timestamp (:timestamp block)
-        transactions (join "" (:transactions block))
-        block-str (str timestamp transactions)]
-    (sha256 block-str)))
