@@ -27,4 +27,5 @@
           " vs "
           (get-in chain [:previous :previous :hash]))
   (println "  " chain)
-  (println))
+  (println)
+  (println "valid?:" (blocks/valid? chain)))

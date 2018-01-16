@@ -22,7 +22,7 @@
 
 
 (defn add-block
-  "Add a block to an existing chain. Chain is a pointer to the chain head Block"
+  "Adds a block to a chain, previous is the chain head Block"
   [previous transactions]
   (let [
     block-no-hash {
@@ -45,6 +45,18 @@
       :previous     nil
       :transactions []}]
     (assoc-digest block-no-hash)))
+
+
+(defn valid?
+  [block]
+  (let [prev (:previous block)]
+    (if (= prev nil)
+      true
+      (and
+        (= (dec (:id block)) (:id prev))
+        (= (:prev-hash block) (:hash prev))
+        (= (:hash block) (block-digest block))
+        (valid? prev)))))
 
 
 (defn transactions
